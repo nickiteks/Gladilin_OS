@@ -7,7 +7,7 @@ public class Planner {
 	ArrayList<Process> processes = new ArrayList<Process>();
 	public Planner() {
 		for (int i = 0; i < rnd.nextInt(3)+1 ; i++) {
-			processes.add(new Process(i,1));
+			processes.add(new Process(i,rnd.nextInt(3)+1));
 		}
 		
 	}	
@@ -22,7 +22,7 @@ public class Planner {
 	
 	public void Info() {
 		for (int i = 0; i < processes.size(); i++) {
-			System.out.print("Process  " + i + " have flows->" + "\n" +  processes.get(i).print());
+			System.out.print("Process  " + i + " with time "+ processes.get(i).getGivenTime() + " have flows->" +  "\n" +  processes.get(i).print());
 		}	
 		System.out.println("--------------------------------------");
 	}

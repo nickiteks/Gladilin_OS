@@ -1,12 +1,13 @@
+import java.time.Period;
 
 public class Flow {
 	private int id;
 	private int workTime;
-	private int givenTime;
-	public Flow(int id, int workTime , int givenTime) {
+	private String priority;
+	public Flow(int id, int workTime , String priority) {
 		this.id =id;
 		this.workTime = workTime;
-		this.givenTime = givenTime;
+		this.priority = priority;
 	}
 	public int getId() {
 		return id;
@@ -14,4 +15,8 @@ public class Flow {
 	public int getWorkTime() {
 		return workTime;
 	}	
+	
+	public String getPriority() {
+		return priority;
+	}
 }
