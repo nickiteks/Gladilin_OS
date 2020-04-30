@@ -7,19 +7,21 @@ public class Manager {
 	private int memorySize = 2048;
 	private int pageSize = 256;
 	private ArrayList<Page> phisicalMemory = new ArrayList<Page>();
-	private ArrayList<Integer> usages = new ArrayList<Integer>();
+	//private ArrayList<Integer> usages = new ArrayList<Integer>();
 	private ArrayList<Page> virtualMemory = new ArrayList<Page>();	
 	public void writePages() {
 		int start=0;
 		int finish=start + pageSize;
 		for (int i = 0; i < memorySize/pageSize/2 ; i++) {
 			virtualMemory.add(new Page(start,finish));
-			usages.add(rnd.nextInt(10)+1);
+			//usages.add(rnd.nextInt(10)+1);
+			virtualMemory.get(i).setUsage(rnd.nextInt(10)+1);
 			start=finish;
 			finish = start + pageSize;
 		}
 		for (int i = 0; i < memorySize/pageSize/2 ; i++) {
 			phisicalMemory.add(new Page(start,finish));
+			phisicalMemory.get(i).setUsage(0);
 			start=finish;
 			finish = start + pageSize;
 		}
@@ -32,7 +34,8 @@ public class Manager {
 					&& adress >= phisicalMemory.get(i).getStartAdress()){
 						pickInPhisikalMemory=true;
 						System.out.println("возвращена страница из физической памяти " + i);
-						usages.set(i,usages.get(i)+1);
+						//usages.set(i,usages.get(i)+1);
+						phisicalMemory.get(i).setUsage(phisicalMemory.get(i).getUsages()+1);
 					}
 		}
 		if (!pickInPhisikalMemory) {
@@ -43,16 +46,16 @@ public class Manager {
 	public void getPageFromVirtualMemory(int adress) {
 		int needPageIndex = 0;
 		int replasePageIndex = 0;
-		int min = usages.get(0);
+		int min = phisicalMemory.get(0).getUsages();
 		for (int i = 0; i < virtualMemory.size(); i++) {
 			 			if(adress <= virtualMemory.get(i).getEndAdress() 
 			 					&& adress >= virtualMemory.get(i).getStartAdress()){
 									needPageIndex = i;
 			 					}
 		}
-		for (int i = 0; i < usages.size(); i++) {
-			 if(usages.get(i) < min ) {
-				 min = usages.get(i);
+		for (int i = 0; i < phisicalMemory.size(); i++) {
+			 if(phisicalMemory.get(i).getUsages() < min ) {
+				 min = phisicalMemory.get(i).getUsages();
 				 replasePageIndex = i;
 			 }
 		}
@@ -64,7 +67,8 @@ public class Manager {
 		 swap = virtualMemory.get(needPageIndex);
 		 virtualMemory.set(needPageIndex,phisicalMemory.get(replasePageIndex));
 		 phisicalMemory.set(replasePageIndex, swap);
-		 usages.set(replasePageIndex,0);
+		 //usages.set(replasePageIndex,0);
+		 phisicalMemory.get(replasePageIndex).setUsage(0);
 	}
 	public void printMemory() {
 		System.out.println("==========Физическая мамять==========");
